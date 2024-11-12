@@ -1,17 +1,26 @@
-import React, { useState } from 'react';
+import React, { useState,useEffect } from 'react';
+import axios from 'axios';
 
 function ExpenseList({ expenses }) {
   const [startDate, setStartDate] = useState('');
   const [endDate, setEndDate] = useState('');
 
-  // Filter expenses by date range
+  useEffect(() => {
+    const getPost = async () => {
+        const response = await axios(
+            "https://expense-tracker-541e6-default-rtdb.asia-southeast1.firebasedatabase.app/expenses.json"
+        );
+        console.log(response.data);
+    };
+    getPost();
+}, []);
+
   const filteredExpenses = expenses.filter(expense => {
     const expenseDate = new Date(expense.date);
     return (!startDate || expenseDate >= new Date(startDate)) &&
            (!endDate || expenseDate <= new Date(endDate));
   });
 
-  // Calculate total expense
   const totalExpense = filteredExpenses.reduce((sum, expense) => sum + Number(expense.amount), 0);
 
   return (
@@ -54,3 +63,5 @@ function ExpenseList({ expenses }) {
 }
 
 export default ExpenseList;
+
+

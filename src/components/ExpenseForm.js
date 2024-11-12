@@ -1,14 +1,40 @@
 import React from 'react';
 import { useForm } from 'react-hook-form';
+import axios from 'axios';
 
 function ExpenseForm({ setExpenses }) {
-  const { register, handleSubmit, reset, formState: { errors } } = useForm();
+  
+  const { register, handleSubmit, reset, formState: { errors } } = useForm({
+      defaultValues :{
+        expenseName: "",
+        amount:0,
+        date:""
 
-  const onSubmit = (data) => {
-    setExpenses((prev) => [...prev, data]);
-    reset();
+      }
+  })
+//   const onAddExpense = async (data) => {
+    
+// };
+  
+  const onSubmit =async (data) => {
+
+    console.log(typeof data, data);
+
+    const formattedData = {
+        "expense-name": data.expenseName,
+        "expense-amount": data.expenseAmount,
+        "expense-date": data.expenseDate,
+    };
+
+    await axios.post(
+        "https://expense-tracker-541e6-default-rtdb.asia-southeast1.firebasedatabase.app/expenses.json",
+        {
+            ...formattedData,
+        }
+    );
   };
 
+  
   return (
     <div className="p-2 ml-64 mt-">
       <h2 className="text-3xl font-bold mb-4">Add Expense</h2>
@@ -20,8 +46,8 @@ function ExpenseForm({ setExpenses }) {
                 <label>Expense Name:</label>
               </td>
               <td className="p-2">
-                <input
-                  type="text"
+                <input 
+                  type="text" ref="name"
                   {...register('name', { required: 'Expense name is required' })}
                   className="border p-2 w-full"
                 />
@@ -34,7 +60,7 @@ function ExpenseForm({ setExpenses }) {
                 <label>Amount:</label>
               </td>
               <td className="p-2">
-                <input
+                <input id="amount"
                   type="number"
                   {...register('amount', { required: 'Amount is required', min: { value: 0, message: 'Amount must be positive' } })}
                   className="border p-2 w-full"
@@ -48,8 +74,8 @@ function ExpenseForm({ setExpenses }) {
                 <label>Date:</label>
               </td>
               <td className="p-2">
-                <input
-                  type="date"
+                <input id="date"
+                  type="date" 
                   {...register('date', { required: 'Date is required', validate: value => new Date(value) <= new Date() || 'Future dates not allowed' })}
                   className="border p-2 w-full"
                 />
@@ -67,6 +93,7 @@ function ExpenseForm({ setExpenses }) {
       </form>
     </div>
   );
+  
 }
 
 export default ExpenseForm;
