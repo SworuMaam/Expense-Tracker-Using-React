@@ -24,7 +24,7 @@ function App() {
             date: expenseData['expense-date'],
           });
         }
-        setExpenses(loadedExpenses); // Set the fetched data
+        setExpenses(loadedExpenses);
       } catch (error) {
         console.error("Error fetching expenses:", error);
       }

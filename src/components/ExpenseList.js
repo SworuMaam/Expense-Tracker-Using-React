@@ -23,7 +23,7 @@ function ExpenseList({ expenses }) {
             date: expenseData['expense-date'],
           });
         }
-        setFilteredExpenses(loadedExpenses); // Set filtered data initially
+        setFilteredExpenses(loadedExpenses); 
       } catch (error) {
         console.error("Error fetching expenses:", error);
       }
@@ -32,7 +32,6 @@ function ExpenseList({ expenses }) {
     getExpenses();
   }, []);
 
-  // Function to filter expenses when button is clicked
   const applyFilter = () => {
     const filtered = expenses.filter(expense => {
       const expenseDate = new Date(expense.date);
@@ -42,7 +41,6 @@ function ExpenseList({ expenses }) {
     setFilteredExpenses(filtered);
   };
 
-  // Calculate total based on filtered expenses
   const totalExpense = filteredExpenses.reduce((sum, expense) => sum + Number(expense.amount), 0);
 
   return (

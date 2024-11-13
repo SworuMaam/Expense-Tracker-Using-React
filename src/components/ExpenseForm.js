@@ -11,7 +11,6 @@ function ExpenseForm({ setExpenses }) {
     },
   });
 
-  // Function to fetch the latest expenses from Firebase
   const fetchExpenses = async () => {
     try {
       const response = await axios.get(
@@ -51,8 +50,11 @@ function ExpenseForm({ setExpenses }) {
       fetchExpenses();
 
       reset();
+
+      alert('Expense added successfully!');
+
     } catch (error) {
-      console.error("Error!!", error);
+      console.error("Error adding expense:", error);
     }
   };
 
