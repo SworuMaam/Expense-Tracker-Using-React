@@ -14,16 +14,13 @@ function App() {
           "https://expense-tracker-541e6-default-rtdb.asia-southeast1.firebasedatabase.app/expenses.json"
         );
 
-        const loadedExpenses = [];
-        for (const key in response.data) {
-          const expenseData = response.data[key];
-          loadedExpenses.push({
-            id: key,
-            name: expenseData['expense-name'],
-            amount: parseFloat(expenseData['expense-amount']),
-            date: expenseData['expense-date'],
-          });
-        }
+        const loadedExpenses = Object.entries(response.data).map(([key, expenseData]) => ({
+          id: key,
+          name: expenseData['expense-name'],
+          amount: parseFloat(expenseData['expense-amount']),
+          date: expenseData['expense-date'],
+        }));
+        
         setExpenses(loadedExpenses);
       } catch (error) {
         console.error("Error fetching expenses:", error);
