@@ -38,11 +38,32 @@ function ExpenseList({ expenses }) {
     setFilteredExpenses(filtered);
   };
 
+  const filterByTimeframe = (days) => {
+    const today = new Date();
+    const startDate = new Date();
+    startDate.setDate(today.getDate() - days);
+
+    const filtered = expenses.filter(expense => {
+      const expenseDate = new Date(expense.date);
+      return expenseDate >= startDate && expenseDate <= today;
+    });
+    setFilteredExpenses(filtered);
+  };
+
   const totalExpense = filteredExpenses.reduce((sum, expense) => sum + Number(expense.amount), 0);
 
   return (
     <div className="ml-64">
       <h2 className="text-3xl font-bold mb-4">Expenses</h2>
+
+      <div className="flex space-x-4 mb-4">
+        <button onClick={() => filterByTimeframe(0)} className="bg-blue-500 text-white px-4 py-2 rounded">Today</button>
+        <button onClick={() => filterByTimeframe(1)} className="bg-blue-500 text-white px-4 py-2 rounded">Yesterday</button>
+        <button onClick={() => filterByTimeframe(7)} className="bg-blue-500 text-white px-4 py-2 rounded">Last 7 Days</button>
+        <button onClick={() => filterByTimeframe(14)} className="bg-blue-500 text-white px-4 py-2 rounded">Last 14 Days</button>
+        <button onClick={() => filterByTimeframe(30)} className="bg-blue-500 text-white px-4 py-2 rounded">Last 30 Days</button>
+        <button onClick={() => filterByTimeframe(90)} className="bg-blue-500 text-white px-4 py-2 rounded">Last 90 Days</button>
+      </div>
 
       <div className="flex space-x-4 mb-4">
         <div>
